@@ -10,7 +10,7 @@ import (
 )
 
 func TestImage(t *testing.T) {
-	doc, err := New(filepath.Join("testdata", "test.pdf"))
+	doc, err := New(filepath.Join("testdata", "23.pdf"))
 	if err != nil {
 		t.Error(err)
 	}
@@ -43,7 +43,7 @@ func TestImage(t *testing.T) {
 }
 
 func TestImageFromMemory(t *testing.T) {
-	b, err := ioutil.ReadFile(filepath.Join("testdata", "test.pdf"))
+	b, err := ioutil.ReadFile(filepath.Join("testdata", "23.pdf"))
 	if err != nil {
 		t.Error(err)
 	}
@@ -83,7 +83,7 @@ func TestImageFromMemory(t *testing.T) {
 }
 
 func TestText(t *testing.T) {
-	doc, err := New(filepath.Join("testdata", "test.pdf"))
+	doc, err := New(filepath.Join("testdata", "23.pdf"))
 	if err != nil {
 		t.Error(err)
 	}
@@ -116,7 +116,7 @@ func TestText(t *testing.T) {
 }
 
 func TestHTML(t *testing.T) {
-	doc, err := New(filepath.Join("testdata", "test.pdf"))
+	doc, err := New(filepath.Join("testdata", "23.pdf"))
 	if err != nil {
 		t.Error(err)
 	}
@@ -149,7 +149,7 @@ func TestHTML(t *testing.T) {
 }
 
 func TestSVG(t *testing.T) {
-	doc, err := New(filepath.Join("testdata", "test.pdf"))
+	doc, err := New(filepath.Join("testdata", "23.pdf"))
 	if err != nil {
 		t.Error(err)
 	}
@@ -196,7 +196,7 @@ func TestToC(t *testing.T) {
 }
 
 func TestMetadata(t *testing.T) {
-	doc, err := New(filepath.Join("testdata", "test.pdf"))
+	doc, err := New(filepath.Join("testdata", "23.pdf"))
 	if err != nil {
 		t.Error(err)
 	}
@@ -206,5 +206,39 @@ func TestMetadata(t *testing.T) {
 	meta := doc.Metadata()
 	if len(meta) == 0 {
 		t.Error(fmt.Errorf("metadata is empty"))
+	}
+}
+
+func TestDocument_ImagePNG(t *testing.T) {
+	doc, err := New(filepath.Join("testdata", "23.pdf"))
+	if err != nil {
+		t.Error(err)
+	}
+
+	defer doc.Close()
+
+	tmpDir, err := ioutil.TempDir(os.TempDir(), "fitz-png")
+	if err != nil {
+		t.Error(err)
+	}
+
+	for n := 0; n < doc.NumPage(); n++ {
+		img, err := doc.ImagePNG(n, 300)
+		if err != nil {
+			t.Error(err)
+		}
+
+		f, err := os.Create(filepath.Join(tmpDir, fmt.Sprintf("test%03d.jpg", n)))
+		if err != nil {
+			t.Error(err)
+		}
+
+		//err = png.Encode(f, img,)
+		_, err = f.Write(img)
+		if err != nil {
+			t.Error(err)
+		}
+
+		f.Close()
 	}
 }

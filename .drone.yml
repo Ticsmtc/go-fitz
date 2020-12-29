@@ -7,4 +7,5 @@ steps:
 - name: tesing
   image: golang
   commands:
-  - go test .
+  - go build
+  - go test

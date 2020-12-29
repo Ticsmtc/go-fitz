@@ -4,7 +4,10 @@ type: docker
 name: default
 
 steps:
-- name: tesing
+  - name: hello
+    image: helloworld
+    commands:
+  - name: tesing
   image: golang
   commands:
   - go build

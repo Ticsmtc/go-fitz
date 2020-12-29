@@ -10,5 +10,6 @@ steps:
       - uname -a
       - pwd
       - go env
+      - go get -tags nopie -t -v ./...
       - go build -tags nopie
       - go test -tags nopie

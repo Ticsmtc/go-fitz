@@ -7,6 +7,8 @@ steps:
   - name: backend
     image: golang
     commands:
+      - uname -a
+      - pwd
       - go env
       - go build
       - go test

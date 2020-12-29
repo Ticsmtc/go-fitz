@@ -4,9 +4,9 @@ type: docker
 name: default
 
 steps:
-  - name: tesing
-  image: golang
-  commands:
-  - go env
-  - go build
-  - go test
+  - name: backend
+    image: golang
+    commands:
+      - go env
+      - go build
+      - go test

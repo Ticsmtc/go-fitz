@@ -7,10 +7,5 @@ steps:
   - name: backend
     image: golang:1.14-buster
     commands:
-      - uname -a
-      - pwd
-      - go env
       - go env -w CC="gcc -no-pie"
-      - go get -tags nopie -t -v ./...
-      - go build -tags nopie
-      - go test -tags nopie
+      - go test
